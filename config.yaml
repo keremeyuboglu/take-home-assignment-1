@@ -1,0 +1,12 @@
+db:
+  db-name:
+  user:
+  password:
+  host:
+  port:
+
+
+
+
+# Construct the connection string for SQLAlchemy
+connection_string = "postgresql+psycopg2://{user}:{password}@{host}:{port}/{dbname}".format(**database_credentials)

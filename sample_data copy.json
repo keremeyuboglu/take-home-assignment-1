@@ -1,0 +1,37 @@
+{
+    "menu_group_map": {
+        "21573": {
+            "id": 21573,
+            "name": "New!",
+            "sort_order": 0
+        }
+    },
+    "menu_item_map": {
+        "148142": {
+            "id": 148142,
+            "name": "Chicken Kabob & Koobideh Kabob Plate",
+            "description": "Thinly cut pieces of savory chicken and our seasoned minced beef. Plate includes basmati rice, pita bread, tzatziki, and choice of house salad, Greek cabbage, original hummus, or spicy harissa hummus +$1",
+            "stock_status": "IN_STOCK",
+            "restaurant_id": null,
+            "image": "temp/1-2023040308PM46.JPEG",
+            "ranking": 19,
+            "price": 21.49,
+            "calorie": null
+        }
+    },
+    "menu_group_menu_item_lookup": {
+        "21565": [
+            148158,
+            148378,
+            148183,
+            148361,
+            148360,
+            148418,
+            148419,
+            148375,
+            148392,
+            148376,
+            148383
+        ]
+    }
+}

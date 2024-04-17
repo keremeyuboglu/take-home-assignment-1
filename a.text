@@ -1,0 +1,4 @@
+To Generate ORM models from postgres database run the line below for local
+
+sqlacodegen postgresql://postgres:123@localhost/Unplug --outfile db_models.py --generator declarative
+sqlacodegen postgresql://postgres:PASSWORD@ADDRESS/SCHEMA-NAME --outfile db_models.py --generator sqlmodels
