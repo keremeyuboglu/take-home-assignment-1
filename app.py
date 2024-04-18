@@ -137,7 +137,6 @@ class MenuGroup(db.Model):
     
 class MenuGroupItemMap(db.Model):
     __tablename__ = "MenuGroupItemMap"
-    __table_args__ = {'extend_existing': True}
     
     menu_group_id: Mapped[int] = mapped_column("MenuGroupId", ForeignKey("MenuGroup.Id"), primary_key=True, unique=True)
     menu_item_id: Mapped[int] = mapped_column("MenuItemId", ForeignKey("MenuItem.Id"), primary_key=True, unique=True)
@@ -276,12 +275,24 @@ def manipulate_menu_item(restaurant_id: int, body: RequestBodyModel):
     
     return 200
     
+class MenuItemUpdateRequest(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    stock_status: Optional[str] = None
+    image: Optional[str] = None
+    ranking: Optional[int] = None
+    price: Optional[float] = None
+    calorie: Optional[float] = None
 
-@app.get('/menu-item/<int:menu_item_id>')
-def get_menu_item(menu_item_id: int):
-    return 5
+@app.post('/menu-item/<int:menu_item_id>')
+@validate()
+def get_menu_item(menu_item_id: int, body: MenuItemUpdateRequest):
+    test_dump = body.model_dump()
+    stmt = update(MenuItem).where(MenuItem.id == menu_item_id).values(
+        body.model_dump(exclude_none=True)
+    )
+    result = db.session.execute(stmt)
+    db.session.commit()
+    return test_dump
 
-# Menu
-# Menu Item
-# Restaurant
 

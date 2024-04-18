@@ -28,7 +28,7 @@
                "--no-debugger", //Comment out this line
                "--no-reload",  //Comment out this line
                "--port",
-               "8280"
+               "5000"
             ],
             "jinja": true
         }
