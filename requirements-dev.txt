@@ -2,4 +2,5 @@ Flask==3.0.3
 sqlacodegen==3.0.0rc3
 SQLAlchemy==2.0.23
 Flask-SQLAlchemy
+pytest
 psycopg2
