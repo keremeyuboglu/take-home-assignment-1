@@ -1,4 +1,4 @@
-from .database import db
+from app.database import db
 from typing import List, Optional
 from datetime import datetime
 from sqlalchemy import Table, ForeignKey, Column, DateTime, delete, update, insert

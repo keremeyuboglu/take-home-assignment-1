@@ -1,6 +1,6 @@
-from .entities import Menu, MenuGroup, MenuGroupItemMap, Restaurant, MenuItem, db
+from app.entities import Menu, MenuGroup, MenuGroupItemMap, Restaurant, MenuItem, db
 from sqlalchemy import delete, update, insert
-from .models import *
+from app.models import *
 
 def get_menu_by_restaurant_id(restaurant_id: int) -> Menu:
     menu: Menu = db.session.scalars(
@@ -8,20 +8,19 @@ def get_menu_by_restaurant_id(restaurant_id: int) -> Menu:
             ).first()  
     return menu   
 
-def delete_menu_item(restaurant_id: int, body: RequestBodyModel) -> None:
-    stmt = delete(MenuItem).where(MenuItem.id == body.id, MenuItem.restaurant_id == restaurant_id)
+def delete_menu_item(restaurant_id: int, menu_item_id: int) -> None:
+    stmt = delete(MenuItem).where(MenuItem.id == menu_item_id, MenuItem.restaurant_id == restaurant_id)
     db.session.execute(stmt)
     db.session.commit()
     
-def update_menu_items(restaurant_id: int, body: RequestBodyModel) -> None:
+def update_menu_items(restaurant_id: int, body: PostMenuRequest) -> None:
     stmt = update(MenuItem).where(MenuItem.id == body.id, MenuItem.restaurant_id == restaurant_id).values(
             body.model_dump(exclude={'type', 'id'}, exclude_none=True)
         )
     db.session.execute(stmt)
     db.session.commit()
     
-    
-def insert_menu_item(restaurant_id: int, body: RequestBodyModel) -> None:
+def insert_menu_item(restaurant_id: int, body: PostMenuRequest) -> None:
     stmt = insert(MenuItem).values(
         body.model_dump(exclude={'type', 'id'}),
         restaurant_id=restaurant_id
@@ -29,7 +28,7 @@ def insert_menu_item(restaurant_id: int, body: RequestBodyModel) -> None:
     db.session.execute(stmt)
     db.session.commit()
     
-def update_menu_item(menu_item_id: int, body: RequestBodyModel) -> None:
+def update_menu_item(menu_item_id: int, body: PostMenuRequest) -> None:
     stmt = update(MenuItem).where(MenuItem.id == menu_item_id).values(
         body.model_dump(exclude_none=True)
     )

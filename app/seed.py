@@ -1,7 +1,7 @@
   
-from .entities import *
-from .models import *
-from .util import get_seed_data
+from app.entities import *
+from app.models import *
+from app.util import get_seed_data
 
 def seed_data_if_unseeded(app):
     with app.app_context():

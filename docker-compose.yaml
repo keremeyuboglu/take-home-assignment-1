@@ -1,0 +1,50 @@
+services:
+  db:
+    image: postgres:15-alpine
+    ports:
+      - 5432:5432
+    secrets:
+      - db-password
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=/run/secrets/db-password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+
+  backend:
+    build:
+      context: backend
+      target: builder
+    restart: always
+    secrets:
+      - db-password
+    ports:
+      - 8000:8000
+    networks:
+      - backnet
+      - frontnet
+    depends_on:
+      db:
+        condition: service_healthy
+
+  proxy:
+    build: proxy
+    restart: always
+    ports:
+      - 80:80
+    depends_on: 
+      - backend
+    networks:
+      - frontnet
+
+volumes:
+  db-data:
+
+secrets:
+  db-password:
+    file: db/password.txt
+
+networks:
+  backnet:
+  frontnet:

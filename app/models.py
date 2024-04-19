@@ -1,7 +1,7 @@
 from typing import List, Optional
 from pydantic import BaseModel
 
-class MenuItemsResponse(BaseModel):
+class GetMenuItemsResponse(BaseModel):
     name: str
     description: Optional[str]
     stock_status: str
@@ -10,13 +10,14 @@ class MenuItemsResponse(BaseModel):
     price: float
     calorie: Optional[float]
     
-class MenuGroupResponse(BaseModel):
+class GetMenuGroupResponse(BaseModel):
     name: str
     sort_order: int
-    menu_items: List[MenuItemsResponse]  
+    menu_items: List[GetMenuItemsResponse]  
 
-class MenuResponse(BaseModel):
-    menu_groups: List[MenuGroupResponse]
+class GetMenuResponse(BaseModel):
+    menu_groups: List[GetMenuGroupResponse]
+    
     
 class MenuItemUpdateRequest(BaseModel):
     name: Optional[str] = None
@@ -27,9 +28,9 @@ class MenuItemUpdateRequest(BaseModel):
     price: Optional[float] = None
     calorie: Optional[float] = None
 
-class RequestBodyModel(BaseModel):
+class PostMenuRequest(BaseModel):
     type: str
-    id: int
+    id: Optional[int] = None
     name: Optional[str] = None
     description: Optional[str] = None
     stock_status: Optional[str] = None
@@ -37,3 +38,25 @@ class RequestBodyModel(BaseModel):
     ranking: Optional[int] = None
     price: Optional[float] = None
     calorie: Optional[float] = None
+    
+        
+class InsertMenuRequest(BaseModel):
+    name: str 
+    description: Optional[str] = None
+    stock_status: Optional[str] = None
+    image: Optional[str] = None
+    price: Optional[float] = None
+    calorie: Optional[float] = None
+    
+class UpdateMenuRequest(BaseModel):
+    id: int 
+    name: Optional[str] = None
+    description: Optional[str] = None
+    stock_status: Optional[str] = None
+    image: Optional[str] = None
+    ranking: Optional[int] = None
+    price: Optional[float] = None
+    calorie: Optional[float] = None
+    
+class DeleteMenuRequest(BaseModel):
+    id: int
