@@ -1,15 +1,8 @@
-import pytest
-from app import create_app
+from dotenv import dotenv_values,load_dotenv 
+import json
+import os
 
-@pytest.fixture()
-def app():
-    app = create_app()
-    app.config.update({
-        "TESTING": True,
-    })
-
-    # other setup can go here
-
-    yield app
-
-    # clean up / reset resources here
+load_dotenv()
+config = dotenv_values(".env")  # config = {"USER": "foo", "EMAIL": "foo@example.org"}
+print(json.dumps(config, indent=4))
+print(os.environ)

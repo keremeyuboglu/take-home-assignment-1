@@ -1,6 +1,6 @@
   
-from app.entities import *
-from app.models import *
+from app.database import db
+from app.entities import Restaurant, Menu, MenuGroup, MenuItem, MenuGroupItemMap
 from app.util import get_seed_data
 
 def seed_data_if_unseeded(app):
@@ -17,14 +17,14 @@ def seed_db(data_dict):
         name="TestRestaurant"
     )
     db.session.add(restaurant)
-    db.session.commit()
+    db.session.flush()
     
     menu = Menu(
         restaurant_id = restaurant.id
     )
     
     db.session.add(menu)
-    db.session.commit()
+    db.session.flush()
     
     menu_groups = data_dict["menu_group_map"]
     menu_items = data_dict["menu_item_map"]
@@ -36,7 +36,7 @@ def seed_db(data_dict):
         menu_group_entity = MenuGroup(**menu_group_attributes)
         db.session.add(menu_group_entity)
     
-    db.session.commit()
+    db.session.flush()
 
     for menu_item_key in menu_items:
         menu_item_attributes=menu_items[menu_item_key]
@@ -44,7 +44,7 @@ def seed_db(data_dict):
         menu_item_entity = MenuItem(**menu_item_attributes)
         db.session.add(menu_item_entity)
 
-    db.session.commit()
+    db.session.flush()
     
     for menu_group_id in menu_group_mappings:
         menu_item_ids = menu_group_mappings[menu_group_id]

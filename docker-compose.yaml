@@ -1,50 +1,37 @@
 services:
-  db:
+  postgres:
     image: postgres:15-alpine
     ports:
       - 5432:5432
-    secrets:
-      - db-password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     volumes:
       - ~/apps/postgres:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=/run/secrets/db-password
+      - POSTGRES_PASSWORD=123
       - POSTGRES_USER=postgres
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB=Unplug
+
 
   backend:
     build:
-      context: backend
+      context: .
       target: builder
     restart: always
-    secrets:
-      - db-password
     ports:
-      - 8000:8000
-    networks:
-      - backnet
-      - frontnet
+      - 5000:5000
+    links:
+      - postgres:postgres
+    environment:
+      - POSTGRES_PASSWORD=123
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=Unplug
     depends_on:
-      db:
+      postgres:
         condition: service_healthy
 
-  proxy:
-    build: proxy
-    restart: always
-    ports:
-      - 80:80
-    depends_on: 
-      - backend
-    networks:
-      - frontnet
-
-volumes:
-  db-data:
-
-secrets:
-  db-password:
-    file: db/password.txt
-
-networks:
-  backnet:
-  frontnet:
+    env_file:
+      - docker.env

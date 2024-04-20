@@ -11,13 +11,14 @@ class MenuItem(db.Model):
     
     id: Mapped[int] = mapped_column("Id", primary_key=True, unique=True)
     name: Mapped[str] = mapped_column("Name", unique=True)
-    description: Mapped[str] = mapped_column("Description")
+    description: Mapped[str] = mapped_column("Description", nullable=True)
     stock_status: Mapped[str] = mapped_column("StockStatus")
     restaurant_id: Mapped[int] = mapped_column("RestaurantId", ForeignKey("Restaurant.Id"))
-    image: Mapped[str] = mapped_column("Image")
-    ranking: Mapped[int] = mapped_column("Ranking")
+    image: Mapped[str] = mapped_column("Image", nullable=True)
+    ranking: Mapped[int] = mapped_column("Ranking", nullable=True)
     price: Mapped[float] = mapped_column("Price")
-    calorie: Mapped[float] = mapped_column("Calorie")
+    calorie: Mapped[float] = mapped_column("Calorie", nullable=True)
+    is_deleted: Mapped[bool] = mapped_column("IsDeleted", default=False)
     menu_group_items: Mapped[List["MenuGroup"]] = relationship(
         "MenuGroup",
         secondary="MenuGroupItemMap", 
@@ -34,15 +35,15 @@ class MenuGroup(db.Model):
     menu_items: Mapped[List["MenuItem"]] = relationship(
         "MenuItem",
         secondary="MenuGroupItemMap", 
-        back_populates="menu_group_items"
+        back_populates="menu_group_items",
     )
 
     
 class MenuGroupItemMap(db.Model):
     __tablename__ = "MenuGroupItemMap"
     
-    menu_group_id: Mapped[int] = mapped_column("MenuGroupId", ForeignKey("MenuGroup.Id"), primary_key=True, unique=True)
-    menu_item_id: Mapped[int] = mapped_column("MenuItemId", ForeignKey("MenuItem.Id"), primary_key=True, unique=True)
+    menu_group_id: Mapped[int] = mapped_column("MenuGroupId", ForeignKey("MenuGroup.Id"), primary_key=True)
+    menu_item_id: Mapped[int] = mapped_column("MenuItemId", ForeignKey("MenuItem.Id"), primary_key=True)
     
 class Menu(db.Model):
     __tablename__ = "Menu"
@@ -52,7 +53,8 @@ class Menu(db.Model):
     created_at: Mapped[datetime] = mapped_column("CreatedAt", DateTime, default=datetime.now())
     menu_groups: Mapped[List["MenuGroup"]] = relationship(
         # "MenuGroup",
-        # back_populates="menu_groups"
+        # back_populates="menu_groups",
+        # order_by="desc(MenuGroup.sort_order)"
     )
     
 class Restaurant(db.Model):
