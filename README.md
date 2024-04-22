@@ -27,4 +27,5 @@ This api has created with following in mind:
 - Deleting menu item means soft deletion.
 - Updating menu item means changes in description, calorie etc. I've just made ranking attribute unique and didn't implement logic of changing all
 the affected rows manipulation.
-- API docs with swagger UI in: http://localhost:5000/docs/
+- API request and responses are in snake_case because sample_json was also in snake_case
+- API docs with swagger UI in: http://localhost:5000/api/

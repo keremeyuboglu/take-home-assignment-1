@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from app.seed import seed_data_if_unseeded
 from app.database import db
-from app.config import config
+from config import config
 from flask_marshmallow import Marshmallow
 from dotenv import load_dotenv
 import os
@@ -13,8 +13,9 @@ ma = Marshmallow()
 apifairy = APIFairy()
 
 
-def create_app():
+def create_app(param_config=None):
     load_dotenv()
+    
     app = Flask(__name__)
     
     # Register Controllers
@@ -25,7 +26,8 @@ def create_app():
     
     
     # Config
-    app_config =  config[os.environ["FLASK_ENV"]]
+    if param_config is None:
+        app_config = config[os.environ["FLASK_ENV"]]
     app.config.from_object(app_config)
     
     # Init dependency libs
@@ -46,6 +48,7 @@ def apifairy_init(app):
     app.config['APIFAIRY_UI'] = 'swagger_ui'
     app.config['APIFAIRY_TITLE'] = 'Unplug Take Home'
     app.config['APIFAIRY_VERSION'] = '1.0'
+    app.config['APIFAIRY_UI_PATH'] = '/api'
 
 
 
