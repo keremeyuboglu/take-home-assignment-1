@@ -1,29 +1,40 @@
-from typing import List, Optional
-from pydantic import BaseModel
-
-class GetMenuItemsResponse(BaseModel):
-    name: str
-    description: Optional[str]
-    stock_status: str
-    image: Optional[str]
-    ranking: Optional[int]
-    price: float
-    calorie: Optional[float]
+from marshmallow import Schema, fields, validate
+from app import ma
+from app.entities import MenuItem, Menu, MenuGroup
     
-class GetMenuGroupResponse(BaseModel):
-    name: str
-    sort_order: int
-    menu_items: List[GetMenuItemsResponse]  
+class MenuItemSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = MenuItem
+        ordered = True
+        description = 'This schema represents a menu item.'
+    name = fields.Str(allow_none=True)
+    description = fields.Str(allow_none=True)
+    stock_status = fields.Str(allow_none=True)
+    image = fields.Str(allow_none=True)
+    ranking = fields.Int(allow_none=True)
+    price = fields.Float(allow_none=True)
+    calorie = fields.Float(allow_none=True)
     
-class GetMenuResponse(BaseModel):
-    menu_groups: List[GetMenuGroupResponse]
+class MenuGroupSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = MenuGroup
+        ordered = True
+        description = 'This schema represents a menu group.'
+    name = fields.String(required=True)
+    sort_order = fields.Integer(required=True)
+    menu_items = fields.List(fields.Nested(MenuItemSchema)) 
+    
+class MenuSchema(ma.SQLAlchemySchema):
+    class Meta:
+        model = Menu
+        ordered = True
+        description = 'This schema represents a menu.'
+    menu_groups = fields.List(fields.Nested(MenuGroupSchema))
+    
 
-class PostMenuRequest(BaseModel):
-    type: str
-    menu_item_id: int
-        
-class InsertMenuItemToMenuRequest(BaseModel):
-    menu_item_id: int
-
-class DeleteMenuItemFromMenuRequest(BaseModel):
-    menu_item_id: int
+class PostMenuSchema(Schema):
+    class Meta:
+        description = 'This schema represents a menu item id.'
+    type = fields.String(required=True, validate=validate.OneOf(["INSERT", "DELETE"]))
+    menu_item_id = fields.Integer(required=True)
+    

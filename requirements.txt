@@ -4,4 +4,6 @@ Flask-SQLAlchemy
 Flask-Pydantic
 python-dotenv
 psycopg2-binary
-spectree
+apifairy
+flask_marshmallow
+marshmallow-sqlalchemy

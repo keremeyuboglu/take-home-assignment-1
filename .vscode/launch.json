@@ -30,7 +30,8 @@
                "--port",
                "5000"
             ],
-            "jinja": true
+            "jinja": true,
+            "justMyCode": false
         }
     ]
 }

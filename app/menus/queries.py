@@ -1,14 +1,13 @@
 from app.entities import Menu, MenuItem, MenuGroup, db
-from sqlalchemy import update, insert, desc, and_, orm
-from app.menus.models import *
+from sqlalchemy import update, orm
 
 def get_menu_by_restaurant_id(restaurant_id: int) -> Menu:
     stmt = db.select(Menu).where(Menu.restaurant_id == restaurant_id).options(
         orm.selectinload(Menu.menu_groups).selectinload(
-            MenuGroup.menu_items.and_(MenuItem.is_deleted==False)
+            MenuGroup.menu_items.and_(not MenuItem.is_deleted)
         )
     )
-    menu: Menu = db.session.scalars(stmt).first()  
+    menu: Menu = db.session.scalar(stmt)
     return menu   
 
 def delete_menu_item_from_menu(restaurant_id:int, menu_item_id: int) -> None:
