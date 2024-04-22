@@ -1,4 +1,4 @@
-from test_base import *
+from test_base import * # Need those as they're fixtures
 import json
 
 test_restaurant_id = 1

@@ -54,9 +54,5 @@ def seed_db(data_dict):
                 menu_item_id=menu_item_id
             )
             db.session.add(menu_map)
-            # insert_statement = menu_group_item_map_table.insert().values(
-            #     MenuGroupId=menu_group_id, MenuItemId=menu_item_id
-            # )
-            # db.session.execute(insert_statement)
     
     db.session.commit()

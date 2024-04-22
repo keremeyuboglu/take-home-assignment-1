@@ -1,6 +1,4 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import DeclarativeBase
 from app.seed import seed_data_if_unseeded
 from app.database import db
 from config import config
@@ -38,8 +36,10 @@ def create_app(param_config=None):
     
     # Create tables if not exists
     with app.app_context() as ctx:
+        # To RECREATE DB UNCOMMENT below
+        # db.drop_all()
         db.create_all()
-        
+
     # Seed data if unseeded
     seed_data_if_unseeded(app)
     return app

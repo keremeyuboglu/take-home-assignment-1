@@ -1,7 +1,6 @@
 from app.entities import MenuItem, db
 from sqlalchemy import update
 from app.menu_items.models import MenuItemUpdateRequestSchema
-from sqlalchemy.exc import IntegrityError
 
 
 def update_menu_item(menu_item_id: int, body: MenuItemUpdateRequestSchema) -> None:

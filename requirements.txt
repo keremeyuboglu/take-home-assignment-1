@@ -1,7 +1,6 @@
 Flask==3.0.3
 SQLAlchemy
 Flask-SQLAlchemy
-Flask-Pydantic
 python-dotenv
 psycopg2-binary
 apifairy

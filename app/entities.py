@@ -1,7 +1,7 @@
 from app.database import db
-from typing import List, Optional
+from typing import List
 from datetime import datetime
-from sqlalchemy import Table, ForeignKey, Column, DateTime, delete, update, insert, UniqueConstraint
+from sqlalchemy import ForeignKey, DateTime, UniqueConstraint
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import Mapped, mapped_column
 

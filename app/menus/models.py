@@ -7,6 +7,9 @@ class MenuItemSchema(ma.SQLAlchemySchema):
         model = MenuItem
         ordered = True
         description = 'This schema represents a menu item.'
+    # Depending on use case ID shouldn't be returned but
+    # for faster demoing purposes I added it
+    id = fields.Str(allow_none=True)
     name = fields.Str(allow_none=True)
     description = fields.Str(allow_none=True)
     stock_status = fields.Str(allow_none=True)

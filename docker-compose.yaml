@@ -9,7 +9,7 @@ services:
       timeout: 5s
       retries: 5
     volumes:
-      - ~/apps/postgres4:/var/lib/postgresql/data
+      - ~/apps/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password

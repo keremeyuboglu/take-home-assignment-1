@@ -6,7 +6,7 @@ def get_menu_by_restaurant_id(restaurant_id: int) -> Optional[Menu]:
     try:
         stmt = db.select(Menu).where(Menu.restaurant_id == restaurant_id).options(
             orm.selectinload(Menu.menu_groups).selectinload(
-                MenuGroup.menu_items.and_(not MenuItem.is_deleted)
+                MenuGroup.menu_items.and_(MenuItem.is_deleted==False)
             )
         )
         menu: Menu = db.session.scalar(stmt)
